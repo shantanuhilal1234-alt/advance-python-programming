@@ -1,96 +1,91 @@
-def report_decorator(func):
+# Dynamic Report Generator using Decorators, Class Methods, and Magic Methods
+
+from datetime import datetime
+
+# ---------------- Decorator ----------------
+def report_header_footer(func):
+    """Decorator to add header and footer to the report."""
     def wrapper(*args, **kwargs):
-        print("\n" + "=" * 45)
-        print("      STUDENT REPORT CARD")
-        print("=" * 45)
+        print("=" * 50)
+        print("          DYNAMIC REPORT GENERATOR")
+        print("=" * 50)
         func(*args, **kwargs)
-        print("=" * 45)
-        print("Report Generated Successfully!")
-        print("=" * 45)
+        print("=" * 50)
+        print("           END OF REPORT")
+        print("=" * 50)
     return wrapper
 
 
-class Person:
-    def __init__(self, name):
-        self.name = name
+# ---------------- Report Class ----------------
+class Report:
 
+    # Class Variable
+    report_count = 0
 
-class Student(Person):
+    # Constructor (Magic Method)
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.content = []
+        Report.report_count += 1
 
-    school = "MIT ADT University"
+    # Magic Method: String Representation
+    def __str__(self):
+        return f"Report Title: {self.title}\nAuthor: {self.author}"
 
-    def __init__(self, roll, name, marks):
-        super().__init__(name)
-        self.roll = roll
-        self.__marks = marks
+    # Magic Method: Length of Report
+    def __len__(self):
+        return len(self.content)
 
-    def calculate_average(self):
-        return sum(self.__marks.values()) / len(self.__marks)
+    # Add report section
+    def add_section(self, heading, text):
+        self.content.append((heading, text))
 
-    def calculate_grade(self):
-        avg = self.calculate_average()
+    # Decorated Method
+    @report_header_footer
+    def generate(self):
+        print(self)
+        print(f"Generated On: {datetime.now()}")
+        print()
 
-        if avg >= 90:
-            return "A+"
-        elif avg >= 80:
-            return "A"
-        elif avg >= 70:
-            return "B"
-        elif avg >= 60:
-            return "C"
-        elif avg >= 50:
-            return "D"
-        else:
-            return "Fail"
+        for heading, text in self.content:
+            print(f"{heading}")
+            print("-" * len(heading))
+            print(text)
+            print()
 
-    @report_decorator
-    def display_report(self):
-        print(f"School : {Student.school}")
-        print(f"Roll No: {self.roll}")
-        print(f"Name   : {self.name}")
-
-        print("\nSubject Marks")
-
-        for subject, mark in self.__marks.items():
-            print(f"{subject:<15}: {mark}")
-
-        print("\nAverage :", round(self.calculate_average(), 2))
-        print("Grade   :", self.calculate_grade())
-
+    # Class Method
     @classmethod
-    def change_school(cls, new_name):
-        cls.school = new_name
-
-    @staticmethod
-    def pass_marks():
-        return 40
+    def total_reports(cls):
+        print(f"Total Reports Created: {cls.report_count}")
 
 
-try:
-    roll = int(input("Enter Roll Number: "))
-    name = input("Enter Student Name: ")
+# ---------------- Main Program ----------------
 
-    n = int(input("How many subjects? "))
+# Create Report
+report = Report("Student Performance Report", "Umar Mulani")
 
-    marks = {}
+# Add Sections
+report.add_section(
+    "Introduction",
+    "This report summarizes the academic performance of students."
+)
 
-    for i in range(n):
-        subject = input(f"\nEnter Subject {i+1} Name: ")
-        score = int(input(f"Enter Marks in {subject}: "))
+report.add_section(
+    "Performance Analysis",
+    "The average result is 82%. Attendance has improved significantly."
+)
 
-        if score < 0 or score > 100:
-            raise ValueError("Marks should be between 0 and 100.")
+report.add_section(
+    "Conclusion",
+    "Overall performance is satisfactory. More focus is needed on practical skills."
+)
 
-        marks[subject] = score
+# Generate Report
+report.generate()
 
-    student = Student(roll, name, marks)
+# Magic Method (__len__)
+print("Number of Sections:", len(report))
 
-    student.display_report()
-
-    print("\nPass Marks:", Student.pass_marks())
-
-except ValueError as e:
-    print("Error:", e)
-
-except Exception as e:
-    print("Unexpected Error:", e)
+# Class Method
+Report.total_reports()
