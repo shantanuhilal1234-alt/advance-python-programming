@@ -1,6 +1,4 @@
-# Library Management System using OOP
 
-# Class to represent a Book
 class Book:
     def __init__(self, book_id, title, author):
         self.book_id = book_id
@@ -13,8 +11,6 @@ class Book:
         print(f"ID: {self.book_id}, Title: {self.title}, "
               f"Author: {self.author}, Status: {status}")
 
-
-# Class to represent a Patron (Library User)
 class Patron:
     def __init__(self, patron_id, name):
         self.patron_id = patron_id
@@ -29,23 +25,23 @@ class Patron:
             print("No books borrowed.")
 
 
-# Class to represent the Library
+
 class Library:
     def __init__(self):
         self.books = {}
         self.patrons = {}
 
-    # Add a new book
+    
     def add_book(self, book):
         self.books[book.book_id] = book
         print(f"Book '{book.title}' added successfully.")
 
-    # Register a new patron
+    
     def register_patron(self, patron):
         self.patrons[patron.patron_id] = patron
         print(f"Patron '{patron.name}' registered successfully.")
 
-    # Borrow a book
+    
     def borrow_book(self, patron_id, book_id):
         if patron_id not in self.patrons:
             print("Patron not found.")
@@ -65,7 +61,7 @@ class Library:
             patron.borrowed_books.append(book.title)
             print(f"{patron.name} borrowed '{book.title}'.")
 
-    # Return a book
+    
     def return_book(self, patron_id, book_id):
         if patron_id not in self.patrons:
             print("Patron not found.")
@@ -85,13 +81,13 @@ class Library:
         else:
             print(f"{patron.name} has not borrowed '{book.title}'.")
 
-    # Display all books
+    
     def display_books(self):
         print("\nLibrary Books:")
         for book in self.books.values():
             book.display()
 
-    # Display all patrons
+    
     def display_patrons(self):
         print("\nRegistered Patrons:")
         for patron in self.patrons.values():
@@ -99,36 +95,34 @@ class Library:
             print("-" * 30)
 
 
-# ------------------ Main Program ------------------
+
 
 library = Library()
 
-# Add Books
+
 library.add_book(Book(101, "Python Programming", "John Smith"))
 library.add_book(Book(102, "Data Structures", "Alice Brown"))
 library.add_book(Book(103, "Machine Learning", "Andrew Ng"))
 
-# Register Patrons
 library.register_patron(Patron(1, "Rahul"))
 library.register_patron(Patron(2, "Sneha"))
 
-# Display Books
+
 library.display_books()
 
-# Borrow Books
+
 print("\nBorrowing Books:")
 library.borrow_book(1, 101)
 library.borrow_book(2, 102)
 
-# Display Books after borrowing
+
 library.display_books()
 
-# Return Book
+
 print("\nReturning Book:")
 library.return_book(1, 101)
 
-# Display Books after returning
 library.display_books()
 
-# Display Patrons
+
 library.display_patrons()
