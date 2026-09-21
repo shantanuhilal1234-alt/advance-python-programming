@@ -1,0 +1,43 @@
+def knapsack_bottom_up(weights, values, capacity):
+
+    n = len(weights)
+ dp = [[0 for _ in range(capacity + 1)]
+          for _ in range(n + 1)]
+  for i in range(1, n + 1):
+ for w in range(1, capacity + 1):
+
+       item_weight = weights[i - 1]
+
+          item_value = values[i - 1]
+
+            if item_weight <= w:
+
+               
+                include = (
+                    item_value +
+                    dp[i - 1][w - item_weight]
+                )
+
+             exclude = dp[i - 1][w]
+
+                
+                dp[i][w] = max(include, exclude)
+
+            else:
+
+           dp[i][w] = dp[i - 1][w]
+
+    return dp[n][capacity]
+weights = [2, 1, 3, 2]
+values = [12, 10, 20, 15]
+
+capacity = 5
+
+maximum_value = knapsack_bottom_up(
+    weights,
+    values,
+    capacity
+)
+
+print("Maximum value using Bottom-Up:",
+      maximum_value)
