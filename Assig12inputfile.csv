@@ -1,0 +1,9 @@
+CustomerID,Gender,Tenure,MonthlyCharges,TotalCharges,Churn
+C001,Male,12,65.5,786.0,No
+C002,Female,5,80.2,401.0,Yes
+C003,Male,24,55.7,1336.8,No
+C004,Female,8,90.5,724.0,Yes
+C005,Male,36,45.2,1627.2,No
+C006,Female,10,75.5,755.0,Yes
+C007,Male,48,50.5,2424.0,No
+C008,Female,6,85.0,510.0,Yes
